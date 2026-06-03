@@ -43,7 +43,6 @@ export async function createAgentTools(executor: ToolExecutor) {
             }),
             execute: async ({ path: p }) => executor.createFolder(p),
         }),
-
         list_files: tool({
             description: "List files and directories under a path.",
             inputSchema: z.object({
@@ -53,7 +52,6 @@ export async function createAgentTools(executor: ToolExecutor) {
             execute: async ({ path: p, recursive }) =>
                 executor.listFiles(p, recursive),
         }),
-
         search_files: tool({
             description:
                 'Find files matching a glob pattern (e.g. "*.ts", "**/*.md"). Optional content substring filter.',
@@ -67,7 +65,6 @@ export async function createAgentTools(executor: ToolExecutor) {
             execute: async ({ root, pattern, content_contains }) =>
                 executor.searchFiles(root, pattern, content_contains),
         }),
-
         analyze_codebase: tool({
             description:
                 "Summarize structure: file counts, size, extensions. Read-only.",
@@ -76,7 +73,6 @@ export async function createAgentTools(executor: ToolExecutor) {
             }),
             execute: async ({ path: p }) => executor.analyzeCodebase(p),
         }),
-
         execute_shell: tool({
             description:
                 "Queue a shell command to run in the workspace after user approval. Use with care.",
@@ -85,14 +81,12 @@ export async function createAgentTools(executor: ToolExecutor) {
             }),
             execute: async ({ command }) => executor.queueShell(command),
         }),
-
         list_skills: tool({
             description:
                 "List absolute paths to SKILL.md files under configured skill directories (Cursor / Claude).",
             inputSchema: z.object({}),
             execute: async () => executor.listSkills(),
         }),
-
         read_skill: tool({
             description:
                 "Read a SKILL.md file. Path must be absolute and under skill roots, or use a path returned by list_skills.",
