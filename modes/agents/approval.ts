@@ -71,9 +71,8 @@ export async function runApprovalFlow(tracker: actionTracker): Promise<boolean> 
     const choice = await select({
         message: "Want to apply the proposed changes?",
         options: [
-            { value: "approve", label: "Approve and apply changes" },
-            { value: "review", label: "Review proposed changes" },
-            { value: "reject", label: "Reject changes and clear staging" },
+            { value: "all", label: "Approve and apply all" },
+            { value: "select", label: "Review one by one" },
             { value: "cancel", label: "Cancel" },
         ]
     })
@@ -84,13 +83,13 @@ export async function runApprovalFlow(tracker: actionTracker): Promise<boolean> 
         }
         return false;
     }
-    if (choice === "approve") {
+    if (choice === "all") {
         for (const a of pending) {
             tracker.updateStatus(a.id, "approved", true);
         }
         return true;
     }
-    if (choice === "reject") {
+    if (choice === "select") {
         for (const a of pending) {
             tracker.updateStatus(a.id, "rejected", false);
         }
