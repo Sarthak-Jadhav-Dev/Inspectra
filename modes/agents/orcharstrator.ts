@@ -7,6 +7,7 @@ import { createAgentTools } from "./agent-tools";
 import { stepCountIs, ToolLoopAgent } from "ai";
 import { getAgentModel } from "../../ai";
 import {renderTerminalMarkdown} from "../../terminal_ui/terminal_md";
+import {runApprovalFlow} from "./approval";
 
 export async function runAgentMode() {
     console.log(chalk.bold("\nAgent Mode is Running\n"));
@@ -50,4 +51,23 @@ export async function runAgentMode() {
     if (result.text?.trim()){
         console.log(renderTerminalMarkdown(result.text));
     }
+    const ok = await runApprovalFlow(tracker);
+    if(!ok){
+        console.log(chalk.red("Aborting, not applying changes."));
+        return executor.clearStaging();
+    }
+
+    const {errors} = await executor.applyApprovedFromTracker();
+    if(errors.length){
+        console.log(chalk.red("\nError applying changes:\n"), errors);
+        for(const err of errors){
+            console.log(chalk.red("- "+err));
+        }
+    }else{
+        console.log(chalk.green("\n  ✓ Applied\n"));
+    }
+
+    executor.clearStaging();
+
+    
 }
