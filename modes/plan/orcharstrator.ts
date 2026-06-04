@@ -11,7 +11,7 @@ import { renderTerminalMarkdown } from "../../terminal_ui/terminal_md.ts";
 import { generatePlan } from "./planner.ts";
 import { printPlan, selectSteps } from "./selection.ts";
 import type { PlanStep } from "./types.ts";
-// import { createWebTools } from "./web-tools.ts";
+import { createWebTools } from "./web-tools.ts";
 
 
 function stepPrompt(goal: string, step: PlanStep): string {
@@ -41,7 +41,11 @@ export async function runPlanMode(): Promise<void> {
   const tracker = new actionTracker();
   const executor = new ToolExecutor(tracker, config);
 
-  const tools = await createAgentTools(executor);
+  const agentTools = await createAgentTools(executor);
+  const tools = {
+    ...agentTools,
+    ...createWebTools(tracker),
+  };
 
   for (const step of selected) {
     console.log(chalk.bold(`\n🔧 ${step.title}\n`));

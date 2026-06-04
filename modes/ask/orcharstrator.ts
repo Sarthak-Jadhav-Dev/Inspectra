@@ -8,6 +8,7 @@ import { actionTracker } from "../agents/action_tracker";
 import { ToolExecutor } from "../agents/tool-executor";
 import { renderTerminalMarkdown } from "../../terminal_ui/terminal_md";
 import { runApprovalFlow } from "../agents/approval";
+import {createWebTools} from "../plan/web-tools";
 
 function createAskTool(executor: ToolExecutor) {
     return {
@@ -87,7 +88,7 @@ export async function runAskMode() {
     const executor = new ToolExecutor(tracker, config);
     const tools = {
         ...createAskTool(executor),
-        //:TODO: add a web Crawler tool that can fetch and summarize web content, for answering questions about technologies, libraries, or concepts related to the codebase.
+        ...createWebTools(tracker),
     };
 
     const agent = new ToolLoopAgent({
