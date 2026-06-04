@@ -1,15 +1,15 @@
 import { select, isCancel } from "@clack/prompts"
-import { runCliMode } from "../modes/cli"
-import { runTelegramMode } from "../modes/telegram"
-
 import chalk from "chalk"
 import figlet from "figlet"
+import { runCliMode } from "../modes/cli";
+import { runTelegramMode } from "../modes/telegram";
 
 const BANNERFONT = "ANSI SHADOW"
 const SHADOW = chalk.hex("#f3d6bfff");
 const FACE = chalk.hex("#dfef77ff").bold
 
 function printBannerWithShadow(ascii: string) {
+
 
     const bannerLines = ascii.replace(/\s+$/, '').split('\n');
     const maxLen = Math.max(...bannerLines.map((l) => l.length), 0);
@@ -39,18 +39,20 @@ export async function runWakeup() {
         options: [
             { value: "cli", label: "CLI" },
             { value: "telegram", label: "Telegram" },
-            { value: "back", label: "Exit" }
+            { value: "exit", label: "Exit" }
         ]
     })
 
-    if (isCancel(mode) || mode === "back") {
-        console.log(chalk.dim("Exiting..."));
+    if (isCancel(mode) || mode === "exit") {
+        console.log(chalk.dim("\nGoodBye...\n"));
         return;
     }
 
     if (mode === "cli") {
+        console.log(chalk.dim("Starting the CLI..."));
         await runCliMode();
     } else {
+        console.log(chalk.dim("Telegram Bot Activated..."));
         await runTelegramMode();
     }
 }

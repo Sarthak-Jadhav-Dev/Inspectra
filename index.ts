@@ -6,8 +6,8 @@ import { runWakeup } from "./terminal_ui/wakeup";
 const program = new Command();
 
 program
-    .name("open-claw")
-    .description("A sample version of Open-Claw")
+    .name("inspectra")
+    .description("Inspectra - AI-powered agent")
     .version("0.0.1");
 
 program

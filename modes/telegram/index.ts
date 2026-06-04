@@ -1,6 +1,7 @@
 import { Telegraf } from "telegraf";
 import chalk from "chalk";
 import { WELCOME } from "./constants.ts";
+import { registerHandlers } from "./handlers.ts";
 
 export async function runTelegramMode() {
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -11,7 +12,7 @@ export async function runTelegramMode() {
         return;
     }
     const bot = new Telegraf(botToken);
-    // registerHandlers(bot);
+    registerHandlers(bot);
     await bot.telegram.sendMessage(ownerId, WELCOME, { parse_mode: "Markdown" });
     console.log(chalk.green("\nTelegram Mode is Running\n"));
     bot.launch();

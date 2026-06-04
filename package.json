@@ -1,10 +1,10 @@
 {
-  "name": "open-claw",
+  "name": "inspectra",
   "module": "index.ts",
   "type": "module",
   "private": true,
   "bin": {
-    "open-claw": "./index.ts"
+    "inspectra": "./index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
