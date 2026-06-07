@@ -6,6 +6,8 @@ import { runAgent, runAsk, runPlanSteps } from "./agent-run";
 import { generatePlan } from "../plan/planner";
 import { planKeyboard, planMessage, planSessions, refreshPlanUi, type PlanSession } from "./plan-session";
 import { approvalDiff, approvalSessions } from "./approval-session";
+import { runStateModes } from "../stats/orcharstrator";
+import { listApiKeys } from "./runstatestelegram";
 
 export function registerHandlers(bot: Telegraf) {
   bot.command("start", async (ctx) => {
@@ -35,6 +37,12 @@ export function registerHandlers(bot: Telegraf) {
     await ctx.reply("🤖 Agent is working on your task…");
     void runAgent(ctx, ctx.chat.id, goal).catch(console.error);
   });
+
+  bot.command("stats",async(ctx)=>{
+    if(!isOwner(ctx.chat.id)) return;
+    await ctx.reply("API-Key Usage Data is Being Fetched",{parse_mode:"Markdown"});
+    void listApiKeys(ctx).catch(console.error);
+  })
 
   bot.command("plan", async (ctx) => {
     if (!isOwner(ctx.chat.id)) return;

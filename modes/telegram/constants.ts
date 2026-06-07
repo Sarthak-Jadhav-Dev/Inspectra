@@ -3,4 +3,6 @@ export const WELCOME = [
   '/ask — Ask a question about the codebase',
   '/agent — Let the agent modify your codebase',
   '/plan — Generate a step-by-step plan for a goal',
+  '/stats — Get Information about your OpenRouter API-Keys',
+
 ].join('\n');

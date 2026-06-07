@@ -3,7 +3,7 @@ import path from "node:path";
 import { homedir } from "node:os";
 import { spawnSync } from "node:child_process";
 import type { AgentConfig, ActionLog } from "./types";
-import {actionTracker} from "./action_tracker";
+import { actionTracker } from "./action_tracker";
 
 const TEXT_EXT = new Set([
   ".ts",
@@ -37,7 +37,7 @@ export class ToolExecutor {
   constructor(
     private readonly tracker: actionTracker,
     private readonly config: AgentConfig,
-  ) {}
+  ) { }
 
   private resolveSafe(rel: string): string {
     const abs = path.resolve(this.config.codebasePath, rel);
@@ -264,7 +264,6 @@ export class ToolExecutor {
     });
     return out || "(no matches)";
   }
-
   analyzeCodebase(rootRel: string): string {
     const rootAbs = this.resolveSafe(rootRel);
     if (!fs.existsSync(rootAbs))
@@ -297,7 +296,6 @@ export class ToolExecutor {
     });
     return summary;
   }
-
   queueShell(command: string): string {
     if (!this.config.tools.allowShellExecution)
       throw new Error("Shell execution disabled");
@@ -320,7 +318,6 @@ export class ToolExecutor {
       path.join(homedir(), ".claude/skills"),
     ];
   }
-
   listSkills(): string {
     const lines: string[] = [];
     for (const root of this.skillRoots()) {
@@ -343,7 +340,6 @@ export class ToolExecutor {
     });
     return out || "(none)";
   }
-
   readSkill(skillPath: string): string {
     const abs = path.isAbsolute(skillPath)
       ? path.normalize(skillPath)
@@ -362,7 +358,6 @@ export class ToolExecutor {
     });
     return text;
   }
-
   applyApprovedFromTracker(): { errors: string[] } {
     const errors: string[] = [];
     const all = [...this.tracker.getActions()];
@@ -421,8 +416,7 @@ export class ToolExecutor {
 
     return { errors };
   }
-
-  clearStaging():void{
+  clearStaging(): void {
     this.overlay.clear()
     this.deleted.clear()
   }

@@ -3,6 +3,7 @@ import { select, isCancel } from "@clack/prompts"
 import { runAgentMode } from "./agents/orcharstrator";
 import { runAskMode } from "./ask/orcharstrator";
 import {runPlanMode} from "./plan/orcharstrator";
+import {runStateModes} from "./stats/orcharstrator";
 
 export async function runCliMode() {
     while (true) {
@@ -12,6 +13,7 @@ export async function runCliMode() {
                 { value: "Agent", label: "Agent" },
                 { value: "Plan", label: "Plan" },
                 { value: "Ask", label: "Ask" },
+                { value: "Stats",label:"Stats" },
                 { value: "Exit", label: "Exit" }
             ]
         })
@@ -28,8 +30,10 @@ export async function runCliMode() {
         if (mode === "Ask") { 
             await runAskMode();
         }
-
-        if (mode != "Agent" && mode != "Plan" && mode != "Ask") {
+        if (mode ==="Stats"){
+            await runStateModes();
+        }
+        if (mode != "Agent" && mode != "Plan" && mode != "Ask" && mode!="Stats") {
             console.log(chalk.red("Invalide Mode, Please Try Again..."));
         }
     }
